@@ -3,38 +3,61 @@
 <head>
   <meta charset="utf-8">
   <title>Open all.health</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <style>
+    html {
+      height: 100%;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      min-height: 100vh;
+      min-height: 100%;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
       background-color: #fafafa;
     }
 
+    /* Equal top/bottom flex bands — avoids “more space above the card” on iOS Safari + dynamic toolbars */
     .page {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 40px 28px;
+      min-height: 100%;
+      min-height: 100dvh;
+      min-height: 100svh;
+      min-height: -webkit-fill-available;
       box-sizing: border-box;
+      padding-left: max(12px, env(safe-area-inset-left));
+      padding-right: max(12px, env(safe-area-inset-right));
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .page-fill {
+      flex: 1 1 0;
+      min-height: 0;
+    }
+
+    .page-main {
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: min(520px, 100%);
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .card {
       width: 100%;
-      max-width: 320px;
       text-align: center;
       background: #fff;
       border: 1px solid #e0e0e0;
       border-radius: 10px;
-      padding: 48px 36px;
+      padding: clamp(32px, 7vw, 48px) clamp(20px, 5vw, 36px);
       box-sizing: border-box;
     }
 
     .page-footer {
-      margin-top: 20px;
+      margin-top: 18px;
       font-size: 14px;
       color: #9e9e9e;
       text-align: center;
@@ -93,6 +116,8 @@
 
 <body>
   <div class="page">
+    <div class="page-fill" aria-hidden="true"></div>
+    <div class="page-main">
     <main class="card">
     <svg class="brand-logo" width="99" height="72" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AllHealth">
       <title>AllHealth</title>
@@ -106,6 +131,8 @@
     <a id="btnPlay" class="btn secondary" href="https://play.google.com/store/apps/details?id=health.all">Google Play (Android)</a>
     </main>
     <footer class="page-footer">© 2026 all.health</footer>
+    </div>
+    <div class="page-fill" aria-hidden="true"></div>
   </div>
 
   <script>
