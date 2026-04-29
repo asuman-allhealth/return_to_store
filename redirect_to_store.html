@@ -65,7 +65,7 @@
 <body>
   <div class="container">
     <h2>Install all.health</h2>
-    <p class="sub" id="sub">Choose your app store (works even if scripts are blocked).</p>
+    <p class="sub" id="sub">Redirecting to your app store… If nothing happens, choose below.</p>
 
     <!-- Default https; script switches to itms-apps:// on iOS (fixes many “Cannot connect to iTunes Store” errors). -->
     <a id="btnApple" class="btn ios" href="https://apps.apple.com/app/id1668893392">App Store (iPhone / iPad)</a>
@@ -160,17 +160,41 @@
         } catch (e) { /* ignore */ }
       }
 
+      /** Default: auto-redirect when OS is detected. Opt out: ?no_redirect=1 or ?auto=0 */
+      function wantsAutoRedirect(q) {
+        if (q.no_redirect === "1") return false;
+        if (q.auto === "0") return false;
+        return true;
+      }
+
+      function redirectUrlForPlatform(platform) {
+        if (platform === "android") return PLAY;
+        if (platform === "ios") return APPLE_ITMS;
+        return null;
+      }
+
       var q = parseQuery(window.location.search || "");
       var forced = platformFromQuery(q);
       var fromUA = platformFromUA();
 
       setAppleBtnHref(shouldUseItmsForApple(q, fromUA));
 
+      var effectivePlatform = forced || (fromUA !== "unknown" ? fromUA : null);
+
+      if (wantsAutoRedirect(q) && effectivePlatform) {
+        tryAutoNavigate(redirectUrlForPlatform(effectivePlatform));
+        return;
+      }
+
+      document.getElementById("sub").textContent =
+        "Choose your app store (works even if scripts are blocked).";
+
       if (forced) {
         emphasize(forced);
         document.getElementById("sub").textContent =
-          forced === "ios" ? "Your link is for iPhone/iPad — open the App Store below." : "Your link is for Android — open Google Play below.";
-        if (q.auto === "1") tryAutoNavigate(forced === "android" ? PLAY : APPLE_ITMS);
+          forced === "ios"
+            ? "Your link is for iPhone/iPad — open the App Store below."
+            : "Your link is for Android — open Google Play below.";
         return;
       }
 
@@ -180,6 +204,11 @@
       }
 
       applyChromeHints(function (hinted) {
+        if (hinted && wantsAutoRedirect(q)) {
+          setAppleBtnHref(hinted === "ios");
+          tryAutoNavigate(redirectUrlForPlatform(hinted));
+          return;
+        }
         if (hinted === "ios") setAppleBtnHref(true);
         if (hinted) emphasize(hinted);
       });
