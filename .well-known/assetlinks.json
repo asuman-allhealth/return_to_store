@@ -1,0 +1,26 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "health.all",
+      "sha256_cert_fingerprints":
+      ["41:CE:03:BD:CA:15:8E:01:FD:72:18:42:50:CF:3A:84:7F:4E:22:5F:DF:FE:DC:2B:65:C9:53:A2:2E:4F:67:B7"]
+    }
+  },{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "health.all",
+      "sha256_cert_fingerprints":
+      ["CB:EB:E8:88:30:A5:C4:D2:63:7E:9A:4D:20:25:E7:1A:F2:E6:67:2A:2B:46:35:5E:71:AF:69:7E:29:5F:B9:0D"]
+    }
+  },{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "health.all",
+        "sha256_cert_fingerprints": [
+          "17:C3:01:FE:ED:0A:D4:13:3E:A7:27:65:CC:04:E3:B7:54:A0:A3:FD:6F:65:6E:DB:97:1B:51:88:82:13:EE:1E"
+        ]
+      }
+  }]
