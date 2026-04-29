@@ -67,7 +67,7 @@
     <h2>Install all.health</h2>
     <p class="sub" id="sub">Choose your app store (works even if scripts are blocked).</p>
 
-    <!-- Real https hrefs: navigation must not depend on JavaScript (many WebViews strip or break inline scripts). -->
+    <!-- Default https; script switches to itms-apps:// on iOS (fixes many “Cannot connect to iTunes Store” errors). -->
     <a id="btnApple" class="btn ios" href="https://apps.apple.com/app/id1668893392">App Store (iPhone / iPad)</a>
     <a id="btnPlay" class="btn secondary" href="https://play.google.com/store/apps/details?id=health.all">Google Play (Android)</a>
   </div>
@@ -75,7 +75,19 @@
   <script>
     (function () {
       var PLAY = "https://play.google.com/store/apps/details?id=health.all";
-      var APPLE = "https://apps.apple.com/app/id1668893392";
+      var APPLE_HTTP = "https://apps.apple.com/app/id1668893392";
+      // Opens App Store app directly; https:// often fails from in-app browsers with “Cannot connect to iTunes Store”.
+      var APPLE_ITMS = "itms-apps://apps.apple.com/app/id1668893392";
+
+      function setAppleBtnHref(useItms) {
+        document.getElementById("btnApple").href = useItms ? APPLE_ITMS : APPLE_HTTP;
+      }
+
+      function shouldUseItmsForApple(q, uaPlatform) {
+        if (platformFromQuery(q) === "ios") return true;
+        if (platformFromQuery(q) === "android") return false;
+        return uaPlatform === "ios";
+      }
 
       function parseQuery(search) {
         var out = {};
@@ -150,22 +162,25 @@
 
       var q = parseQuery(window.location.search || "");
       var forced = platformFromQuery(q);
+      var fromUA = platformFromUA();
+
+      setAppleBtnHref(shouldUseItmsForApple(q, fromUA));
 
       if (forced) {
         emphasize(forced);
         document.getElementById("sub").textContent =
           forced === "ios" ? "Your link is for iPhone/iPad — open the App Store below." : "Your link is for Android — open Google Play below.";
-        if (q.auto === "1") tryAutoNavigate(forced === "android" ? PLAY : APPLE);
+        if (q.auto === "1") tryAutoNavigate(forced === "android" ? PLAY : APPLE_ITMS);
         return;
       }
 
-      var fromUA = platformFromUA();
       if (fromUA !== "unknown") {
         emphasize(fromUA);
         return;
       }
 
       applyChromeHints(function (hinted) {
+        if (hinted === "ios") setAppleBtnHref(true);
         if (hinted) emphasize(hinted);
       });
     })();
