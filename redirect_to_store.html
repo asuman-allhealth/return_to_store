@@ -26,7 +26,8 @@
       height: 72px;
       display: block;
       margin: 0 auto 16px;
-      object-fit: contain;
+      color: #111827;
+      shape-rendering: geometricPrecision;
     }
 
     h2 {
@@ -72,7 +73,10 @@
 
 <body>
   <div class="container">
-    <img class="brand-logo" src="resources/image.png" width="99" height="72" alt="AllHealth">
+    <svg class="brand-logo" width="99" height="72" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AllHealth">
+      <title>AllHealth</title>
+      <path d="M17.947 11.076c-.4-1.757-2.395-2.794-4.71-1.677-1.038.56-.799.719-.958.32-.719-2.475-1.198-5.908-3.992-7.186C3.657.378-1.453 5.088.383 10.677c.879 2.634 3.114 4.47 5.988 4.47 2.155 0 3.672-1.197 5.11-2.874.399-.399-.08-.16.957.958 2.076 2.395 6.068.799 5.509-2.155zm-6.786 0c-1.118 1.277-2.395 2.315-4.072 2.554-2.794.32-5.348-1.676-5.508-4.79-.24-2.874 1.756-5.508 4.79-5.269 2.714.24 3.433 2.635 4.151 5.27.719 2.554.719 2.155.639 2.235zm5.349 1.277c-.48.799-1.916.958-2.794.08-.4-.4-.719-.958-.958-1.517 2.475-2.076 4.79-.16 3.752 1.437z" fill="currentColor"></path>
+    </svg>
     <h2>Install all.health</h2>
     <p class="sub" id="sub">Redirecting to your app store… If nothing happens, choose below.</p>
 
