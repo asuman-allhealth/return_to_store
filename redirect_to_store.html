@@ -5,45 +5,45 @@
   <title>Open all.health</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <style>
-    html {
-      height: 100%;
-    }
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      min-height: 100%;
+      min-height: 100vh;
       min-height: 100dvh;
-      min-height: -webkit-fill-available;
       background-color: #fafafa;
     }
 
-    /* Equal top/bottom flex bands — avoids “more space above the card” on iOS Safari + dynamic toolbars */
+    /*
+      Hybrid layout:
+      - Wide screens (laptop, tablet, most landscape): classic centered card + airy padding (no “stuck to ceiling”).
+      - Narrow phones (max-width: 600px): equal top/bottom flex bands + card nearer side edges + fluid width.
+    */
     .page {
       display: flex;
       flex-direction: column;
-      min-height: 100%;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
       min-height: 100dvh;
-      min-height: 100svh;
-      min-height: -webkit-fill-available;
       box-sizing: border-box;
-      padding-left: max(12px, env(safe-area-inset-left));
-      padding-right: max(12px, env(safe-area-inset-right));
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
+      padding: max(40px, env(safe-area-inset-top)) max(32px, env(safe-area-inset-right))
+        max(40px, env(safe-area-inset-bottom)) max(32px, env(safe-area-inset-left));
     }
 
     .page-fill {
-      flex: 1 1 0;
+      flex: 0 0 0;
+      height: 0;
       min-height: 0;
+      overflow: hidden;
     }
 
     .page-main {
       flex: 0 0 auto;
       width: 100%;
-      max-width: min(520px, 100%);
-      margin-left: auto;
-      margin-right: auto;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
     }
 
     .card {
@@ -52,15 +52,39 @@
       background: #fff;
       border: 1px solid #e0e0e0;
       border-radius: 10px;
-      padding: clamp(32px, 7vw, 48px) clamp(20px, 5vw, 36px);
+      padding: 48px 36px;
       box-sizing: border-box;
     }
 
     .page-footer {
-      margin-top: 18px;
+      margin-top: 20px;
       font-size: 14px;
       color: #9e9e9e;
       text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        justify-content: flex-start;
+        padding-left: max(12px, env(safe-area-inset-left));
+        padding-right: max(12px, env(safe-area-inset-right));
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+
+      .page-fill {
+        flex: 1 1 0;
+        height: auto;
+        min-height: 0;
+      }
+
+      .page-main {
+        max-width: min(520px, 100%);
+      }
+
+      .card {
+        padding: clamp(36px, 8vw, 48px) clamp(22px, 5vw, 34px);
+      }
     }
 
     .brand-logo {
@@ -88,8 +112,9 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      padding: 14px;
-      font-size: 14px;
+      padding: 12px 14px;
+      font-size: 16px;
+      font-weight: 400;
       color: white;
       background-color: #007AFF;
       border-radius: 10px;
@@ -105,7 +130,7 @@
 
     .btn.ios {
       background-color: #4b535e;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
 
     .emphasize {
