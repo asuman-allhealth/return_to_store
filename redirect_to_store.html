@@ -21,6 +21,14 @@
       text-align: center;
     }
 
+    .brand-logo {
+      width: 99px;
+      height: 72px;
+      display: block;
+      margin: 0 auto 16px;
+      object-fit: contain;
+    }
+
     h2 {
       margin-bottom: 8px;
     }
@@ -64,6 +72,7 @@
 
 <body>
   <div class="container">
+    <img class="brand-logo" src="resources/image.png" width="99" height="72" alt="AllHealth">
     <h2>Install all.health</h2>
     <p class="sub" id="sub">Redirecting to your app store… If nothing happens, choose below.</p>
 
@@ -160,7 +169,7 @@
         } catch (e) { /* ignore */ }
       }
 
-      /** Default: auto-redirect when OS is detected. Opt out: ?no_redirect=1 or ?auto=0 */
+    /** Default: auto-redirect when OS is detected. Opt out: ?no_redirect=1 or ?auto=0 */  
       function wantsAutoRedirect(q) {
         if (q.no_redirect === "1") return false;
         if (q.auto === "0") return false;
